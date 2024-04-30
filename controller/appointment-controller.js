@@ -4,7 +4,8 @@ const getAllAppointments = async (req, res, next) => {
   let appointments
   try {
     //const appointments = await Appointment.find().populate('PatientID').populate('ProviderID').populate('StaffID');   
-    appointments = await Appointment.find().populate('PatientID').populate('ProviderID').populate('StaffID');
+    // appointments = await Appointment.find().populate('PatientID').populate('ProviderID').populate('StaffID');
+    appointments = await Appointment.find();
   } catch (err) {
     return next(err);
   }

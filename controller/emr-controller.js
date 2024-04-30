@@ -4,7 +4,8 @@ const getAllEMRs = async (req, res, next) => {
   let emrs;
   try {
     // const emrs = await EMR.find().populate('PatientID').populate('ProviderID').populate('StaffID');
-    emrs = await EMR.find().populate('PatientID').populate('ProviderID').populate('StaffID');  
+    // emrs = await EMR.find().populate('PatientID').populate('ProviderID').populate('StaffID');
+    emrs = await EMR.find();
   } catch (err) {
     return next(err);
   }

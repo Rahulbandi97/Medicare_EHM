@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const Patient = require('../model/Patient');
+const HealthCareProvider = require('../model/HealthCareProvider');
+const Staff = require('../model/Staff');
+
 const appointmentSchema = new Schema({
   AppointmentID: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -14,7 +18,7 @@ const appointmentSchema = new Schema({
   },
   ProviderID: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'HealthcareProvider',
+    ref: 'HealthCareProvider',
     required: true
   },
   StaffID: {

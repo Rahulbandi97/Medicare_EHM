@@ -57,4 +57,4 @@ const healthcareProviderSchema = new Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model("HealthcareProvider", healthcareProviderSchema);
+module.exports = mongoose.model("HealthCareProvider", healthcareProviderSchema);

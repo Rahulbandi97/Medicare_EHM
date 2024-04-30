@@ -1,4 +1,7 @@
+const mongoose = require("mongoose");
 const Patient = require("../model/Patient");
+const Appointment = require("../model/Appointment");
+const EMR = require("../model/EMR"); 
 
 const getAllPatients = async (req, res, next) => {
   try {
@@ -10,11 +13,6 @@ const getAllPatients = async (req, res, next) => {
 };
 
 const addPatient = async (req, res, next) => {
-  //const { firstName, lastName, ...restOfDetails } = req.body;
-  // console.log(firstName)
-  // if (!firstName || !lastName) {
-  //   return res.status(422).json({ message: "First name and last name are required." });
-  // }
   const newPatient = new Patient(req.body);
   try {  
     const savedPatient = await newPatient.save();
@@ -38,16 +36,57 @@ const updatePatient = async (req, res, next) => {
 };
 
 const deletePatient = async (req, res, next) => {
+  //BOC vikram
   const { id } = req.params;
+  // const patient = req.params;
+  const _id = await Patient.findOne({ "PatientID": id }).select('_id');
+  //EOC vikram
   try {
-    const deletedPatient = await Patient.findByIdAndDelete(id);
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const deletedPatient = await Patient.findByIdAndDelete(_id, { session });
+    //BOC vikram
+    // const patientcstID = await Patient.findById(id).select('PatientID');/
+    // patientcstID = id;
+    //EOC vikram
     if (!deletedPatient) {
+      await session.abortTransaction();
+      session.endSession();
       return res.status(404).json({ message: "Patient not found." });
     }
-    res.status(200).json({ message: "Patient deleted successfully." });
+
+    // Deleting related appointments
+    //BOC vikram
+    // const deleteAppointmentsResult = await Appointment.deleteMany({ PatientID: patientcstID.PatientID }, { session });
+    const deleteAppointmentsResult = await Appointment.deleteMany({ PatientID: id }, { session });
+    //EOC Vikram
+    console.log(`Deleted ${deleteAppointmentsResult.deletedCount} appointment(s).`);
+
+    // Deleting related EMRs
+    //BOC vikram
+    const deleteEmrResult = await EMR.deleteMany({ PatientID: id }, { session });
+    //EOC vikram
+    console.log(`Deleted ${deleteEmrResult.deletedCount} EMR entry(ies).`);
+
+    await session.commitTransaction();
+    session.endSession();
+    res.status(200).json({ message: "Patient and related records deleted successfully." });
   } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
     next(err);
   }
+  // const { id } = req.params;
+  // try {
+  //   const deletedPatient = await Patient.findByIdAndDelete(id);
+  //   if (!deletedPatient) {
+  //     return res.status(404).json({ message: "Patient not found." });
+  //   }
+  //   res.status(200).json({ message: "Patient deleted successfully." });
+  // } catch (err) {
+  //   next(err);
+  // }
 };
 
 const getPatientById = async (req, res, next) => {
