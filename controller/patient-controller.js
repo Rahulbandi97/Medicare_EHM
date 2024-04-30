@@ -10,13 +10,13 @@ const getAllPatients = async (req, res, next) => {
 };
 
 const addPatient = async (req, res, next) => {
-  const { firstName, lastName, ...restOfDetails } = req.body;
-  if (!firstName || !lastName) {
-    return res.status(422).json({ message: "First name and last name are required." });
-  }
-
-  try {
-    const newPatient = new Patient({ firstName, lastName, ...restOfDetails });
+  //const { firstName, lastName, ...restOfDetails } = req.body;
+  // console.log(firstName)
+  // if (!firstName || !lastName) {
+  //   return res.status(422).json({ message: "First name and last name are required." });
+  // }
+  const newPatient = new Patient(req.body);
+  try {  
     const savedPatient = await newPatient.save();
     res.status(201).json({ patient: savedPatient });
   } catch (err) {

@@ -70,6 +70,7 @@ const patientSchema = new Schema({
   },
   MedicalHistory: {
     type: mongoose.SchemaTypes.ObjectId,
+    //type: String,
     ref: 'EMR'
   },
   Allergies: [String]

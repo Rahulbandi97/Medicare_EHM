@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const emrSchema = new Schema({
   RecordID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     required: true,
     unique: true
   },
