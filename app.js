@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors"); // Import CORS module
 
 // Import the routes
 const patientRoutes = require("./routes/patient-routes");
@@ -9,6 +10,12 @@ const healthcareProviderRoutes = require("./routes/healthcareprovider-routes");
 const staffRoutes = require("./routes/staff-routes");
 
 const app = express();
+
+// CORS configuration
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow your frontend domain to make requests
+  optionsSuccessStatus: 200 // For legacy browser support
+}));
 
 app.use(express.json());
 

@@ -5,7 +5,7 @@ const mongoose = require("mongoose"); //vikram
 const getAllHealthcareProviders = async (req, res, next) => {
   try {
     const healthcareProviders = await HealthcareProvider.find();
-    res.status(200).json({ healthcareProviders });
+    res.status(200).json( healthcareProviders );
   } catch (err) {
     next(err);
   }

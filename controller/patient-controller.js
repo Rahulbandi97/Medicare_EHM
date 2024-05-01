@@ -2,11 +2,17 @@ const mongoose = require("mongoose");
 const Patient = require("../model/Patient");
 const Appointment = require("../model/Appointment");
 const EMR = require("../model/EMR"); 
+const express = require('express');
+const cors = require('cors');
+const app = express();
+app.use(cors());
+
+
 
 const getAllPatients = async (req, res, next) => {
   try {
     const patients = await Patient.find();
-    res.status(200).json({ patients });
+    res.status(200).json( patients );
   } catch (err) {
     next(err);
   }

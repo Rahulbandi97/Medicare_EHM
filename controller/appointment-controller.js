@@ -12,7 +12,7 @@ const getAllAppointments = async (req, res, next) => {
   if(!appointments){
     return res.status(500).json({message: "Internal server error"});
  }
- return res.status(200).json({ appointments });
+ return res.status(200).json( appointments );
 };
 
 const addAppointment = async (req, res, next) => {

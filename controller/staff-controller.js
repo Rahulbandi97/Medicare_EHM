@@ -3,7 +3,7 @@ const Staff = require("../model/Staff");
 const getAllStaffMembers = async (req, res, next) => {
   try {
     const staffMembers = await Staff.find();
-    res.status(200).json({ staffMembers });
+    res.status(200).json( staffMembers );
   } catch (err) {
     next(err);
   }
