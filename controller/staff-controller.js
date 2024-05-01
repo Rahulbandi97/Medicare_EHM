@@ -34,9 +34,9 @@ const updateStaffMember = async (req, res, next) => {
 
 const deleteStaffMember = async (req, res, next) => {
   const id = req.params.id;
-  console.log('id', id);
+  // console.log('id', id);
   const _id = await Staff.findOne({ "StaffID": id }).select('_id');
-  console.log('_id', _id);
+  // console.log('_id', _id);
   let deletedStaffMember
   try {
     // const deletedStaffMember = await Staff.findByIdAndDelete(_id);

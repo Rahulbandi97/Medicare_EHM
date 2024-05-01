@@ -10,6 +10,8 @@ import PatientDisplay from './components/patientdisplay';
 import HCPDisplay from './components/HCPDisplay';
 import StaffDisplay from './components/StaffDisplay';
 import AppointmentDisplay from './components/AppointmentDisplay';
+import EMRDisplay from './components/EMRDisplay';
+
 
 export default function App() {
   return (
@@ -26,7 +28,7 @@ export default function App() {
           <Route path="/hcpdisplay" element={<HCPDisplay />} />
           <Route path="/staffdisplay" element={<StaffDisplay />} />
           <Route path="/appointmentdisplay" element={<AppointmentDisplay />} />
-          {/* <Route path="/appointmentdisplay" element={<AppointmentDisplay />} /> */}
+          <Route path="/emrdisplay" element={<EMRDisplay />} /> 
 
         </Routes>
       </div>
