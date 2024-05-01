@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './css/AppointmentForm.css'
+import axios from 'axios';
+import './css/AppointmentForm.css';
+// const mongoose = require("mongoose");
 
 function AppointmentForm() {
     const [formData, setFormData] = useState({
@@ -23,17 +25,29 @@ function AppointmentForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formData)
         try {
-            const response = await fetch('https://your-api-url/appointments', {
-                method: 'POST',
+            console.log(formData);
+            const response = await axios.post('http://localhost:5000/appointments', formData, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                }
             });
-            const data = await response.json();
-            console.log('Submission successful', data);
+            // if (response.status == 200) {
+            //     alert('Record created successfully!');
+            // }
+            console.log('Submission successful', response.data);
+            alert('Appointment Record created successfully!');
+            setFormData({
+                AppointmentID: '',
+        PatientID: '',
+        ProviderID: '',
+        StaffID: '',
+        AppointmentDate: '',
+        AppointmentTime: '',
+        Purpose: '',
+        Status: ''
+            });
+
             // Handle response and further actions like redirecting or showing success message
         } catch (error) {
             console.error('Submission failed', error);
@@ -43,15 +57,15 @@ function AppointmentForm() {
 
     return (
         <div className='container'>
-            {/* <h1>Appointments</h1> */}
             <form onSubmit={handleSubmit}>
                 <h1 className='title'>Appointments</h1>
+                {/* <h2>Form submitted succesfully</h2> */}
                 <input name="AppointmentID" value={formData.AppointmentID} onChange={handleInputChange} placeholder="Appointment ID" required />
                 <input name="PatientID" value={formData.PatientID} onChange={handleInputChange} placeholder="Patient ID" required />
                 <input name="ProviderID" value={formData.ProviderID} onChange={handleInputChange} placeholder="Provider ID" required />
                 <input name="StaffID" value={formData.StaffID} onChange={handleInputChange} placeholder="Staff ID" required />
                 <input type="date" name="AppointmentDate" value={formData.AppointmentDate} onChange={handleInputChange} placeholder="Appointment Date" required />
-                <input name="AppointmentTime" value={formData.AppointmentTime} onChange={handleInputChange} placeholder="Appointment Time" required />
+                <input type="time" name="AppointmentTime" value={formData.AppointmentTime} onChange={handleInputChange} placeholder="Appointment Time" required />
                 <input name="Purpose" value={formData.Purpose} onChange={handleInputChange} placeholder="Purpose" required />
                 <select name="Status" value={formData.Status} onChange={handleInputChange} required>
                     <option value="">Select Status</option>

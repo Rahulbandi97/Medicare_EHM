@@ -33,16 +33,22 @@ const updateStaffMember = async (req, res, next) => {
 };
 
 const deleteStaffMember = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  console.log('id', id);
+  const _id = await Staff.findOne({ "StaffID": id }).select('_id');
+  console.log('_id', _id);
+  let deletedStaffMember
   try {
-    const deletedStaffMember = await Staff.findByIdAndDelete(id);
-    if (!deletedStaffMember) {
-      return res.status(404).json({ message: "Staff member not found." });
-    }
-    res.status(200).json({ message: "Staff member deleted successfully." });
+    // const deletedStaffMember = await Staff.findByIdAndDelete(_id);
+    deletedStaffMember = await Staff.findByIdAndDelete(_id);
+    
   } catch (err) {
     next(err);
   }
+  if (!deletedStaffMember) {
+    return res.status(404).json({ message: "Staff member not found." });
+  }
+  res.status(200).json({ message: "Staff member deleted successfully." });
 };
 
 const getStaffMemberById = async (req, res, next) => {

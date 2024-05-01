@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function StaffDisplay() {
     const [staff, setStaff] = useState([]);
+    const [deleteId, setDeleteId] = useState(''); // State to hold the ID to delete
 
     const fetchStaffData = async (e) => {
         try {
@@ -24,6 +25,28 @@ function StaffDisplay() {
                 console.error('Error', error.message);
             }
         }
+    };
+
+    
+    const deleteStaffData = async () => {
+        if (!deleteId) {
+            alert('Please enter a valid Staff ID to delete.');
+            return;
+        }
+        try {
+            const response = await axios.delete(`http://localhost:5000/staff/${deleteId}`);
+            console.log('Deletion successful', response.data);
+            alert('Staff deleted successfully!');
+            setDeleteId(''); // Clear the input field after successful deletion
+            fetchStaffData(); // Refresh the appointment data
+        } catch (error) {
+            console.error('Failed to delete staff:', error);
+            alert('Failed to delete staff!');
+        }
+    };
+
+    const handleDeleteIdChange = (e) => {
+        setDeleteId(e.target.value);
     };
 
     // useEffect hook to log the staff state whenever it changes
@@ -51,6 +74,16 @@ function StaffDisplay() {
             <p>No Staff data available.</p>
         )}
     </div>
+    <div className="delete-section">
+                <input
+                    type="text"
+                    value={deleteId}
+                    onChange={handleDeleteIdChange}
+                    placeholder="Enter StaffID ID to delete"
+                    style={{ marginRight: '10px' }}
+                />
+                <button onClick={deleteStaffData}>Delete Staff</button>
+            </div>
 </div>
     );
 }

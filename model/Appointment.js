@@ -7,22 +7,22 @@ const Staff = require('../model/Staff');
 
 const appointmentSchema = new Schema({
   AppointmentID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     required: true,
     unique: true
   },
   PatientID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'Patient',
     required: true
   },
   ProviderID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'HealthCareProvider',
     required: true
   },
   StaffID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'Staff',
     required: true
   },

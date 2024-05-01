@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const healthcareProviderSchema = new Schema({
   ProviderID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     required: true,
     unique: true
   },

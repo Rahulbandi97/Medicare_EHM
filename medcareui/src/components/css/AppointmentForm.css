@@ -1,46 +1,39 @@
-/* StaffForm.css */
-/* html, body {
-    height: 100%; /* Ensure the full height of the page is available 
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center; /* Center horizontally 
-    align-items: center; /* Center vertically 
-    background: #f0f0f0; /* Optional: adds a background color to the page 
-} */
-
 .container {
     width: 100%;
-    max-width: 600px; /* Maximum width of the form */
+    max-width: 800px; /* Maximum width of the form */
     background: #fff; /* Background color of the form */
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-top: 15px;
-    margin-left: 400px;
+    margin: 15px auto; /* Centered horizontally */
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Stack children vertically */
     align-items: center;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    /* align-items: flex-start; */
-    gap: 10px; /* Manage spacing between form fields */
-    width: 100%;
+.appointment-data, .hcp-data {
+    width: 100%; /* Full width to match container */
 }
 
-label {
-    font-weight: bold;
-    color: #333;
+ol {
+    list-style: none; /* Removes default list styling */
+    padding: 0;
+    margin: 0;
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+li {
+    background: #f9f9f9; /* Light grey background for each item */
+    border: 1px solid #ccc; /* Adds border to each list item */
+    padding: 10px; /* Padding inside each list item */
+    margin-bottom: 10px; /* Space between list items */
+    border-radius: 4px; /* Rounded corners for each list item */
+}
+
+.title {
+    text-align: center; /* Centers the text horizontally */
+    margin-bottom: 20px; /* Adds space below the title */
+    color: #333; /* Sets the text color */
+    font-size: 24px; /* Sets the font size */
 }
 
 button {
@@ -58,9 +51,21 @@ button:hover {
     background-color: #0056b3;
 }
 
-.title {
-    text-align: center; /* Centers the text horizontally */
-    margin-bottom: 20px; /* Adds space below the title */
-    color: #333; /* Optional: sets the text color */
-    font-size: 24px; /* Optional: sets the font size */
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Adds space below each input */
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+.delete-section {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: space-between; /* Distributes space between and around content */
 }

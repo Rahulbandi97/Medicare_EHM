@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './css/HealthcareProviderForm.css';
-
+import axios from 'axios';
 
 function HealthcareProviderForm() {
     const [formData, setFormData] = useState({
@@ -43,16 +43,17 @@ function HealthcareProviderForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('https://your-api-url/providers', {
-                method: 'POST',
+            console.log(formData);
+            const response = await axios.post('http://localhost:5000/healthcareProviders', formData, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                }
             });
-            const data = await response.json();
-            console.log('Submission successful', data);
-            // Handle response and further actions like redirecting or showing success message
+            // if (response.status == 200) {
+            //     alert('Record created successfully!');
+            // }
+            console.log('Submission successful', response.data);
+            alert('HCP Record created successfully!');
         } catch (error) {
             console.error('Submission failed', error);
             // Handle errors, e.g., show error message to user

@@ -26,6 +26,7 @@ export default function App() {
           <Route path="/hcpdisplay" element={<HCPDisplay />} />
           <Route path="/staffdisplay" element={<StaffDisplay />} />
           <Route path="/appointmentdisplay" element={<AppointmentDisplay />} />
+          {/* <Route path="/appointmentdisplay" element={<AppointmentDisplay />} /> */}
 
         </Routes>
       </div>

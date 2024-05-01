@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './css/EMRForm.css';
+import axios from 'axios';
 
 export default function EMRForm() {
   const [formData, setFormData] = useState({
+    RecordID:'',
     PatientID: '',
     ProviderID: '',
     StaffID: '',
@@ -58,16 +60,14 @@ export default function EMRForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('https://your-api-url/emr', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+      console.log(formData);
+      const response = await axios.post('http://localhost:5000/emr', formData, {
+          headers: {
+              'Content-Type': 'application/json'
+          }
       });
-      const data = await response.json();
-      console.log('Submission successful', data);
-      // Handle response and further actions
+      console.log('Submission successful', response.data);
+      alert('EMR Record created successfully!');
     } catch (error) {
       console.error('Submission failed', error);
       // Handle errors
@@ -79,6 +79,7 @@ export default function EMRForm() {
         {/* <h1>EMR Details</h1> */}
         <form onSubmit={handleSubmit}>
         <h1 className='title'>EMR Details</h1>
+        <input name="RecordID" value={formData.RecordID} onChange={handleInputChange} placeholder="Record ID" required />  
       <input name="PatientID" value={formData.PatientID} onChange={handleInputChange} placeholder="Patient ID" required />
       <input name="ProviderID" value={formData.ProviderID} onChange={handleInputChange} placeholder="Provider ID" required />
       <input name="StaffID" value={formData.StaffID} onChange={handleInputChange} placeholder="Staff ID" required />

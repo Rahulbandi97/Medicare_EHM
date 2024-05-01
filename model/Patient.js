@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const patientSchema = new Schema({
   PatientID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     required: true,
     unique: true
   },
@@ -69,7 +69,7 @@ const patientSchema = new Schema({
     ExpirationDate: Date
   },
   MedicalHistory: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     //type: String,
     ref: 'EMR'
   },

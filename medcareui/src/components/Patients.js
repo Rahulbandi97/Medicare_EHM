@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './css/Patients.css';
+import axios from 'axios';
 
 export default function Patients() {
     const [formData, setFormData] = useState({
@@ -51,15 +52,41 @@ export default function Patients() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('https://your-api-url/patients', {
-                method: 'POST',
+            console.log(formData);
+            const response = await axios.post('http://localhost:5000/patients', formData, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                }
             });
-            const data = await response.json();
-            console.log('Submission successful', data);
+            //const data = await response.json();
+            console.log('Patient Submission successful', response.data);
+            alert('Patient Record created successfully!');
+            setFormData({
+                PatientID: '',
+                FirstName: '',
+                MiddleName: '',
+                LastName: '',
+                DOB: '',
+                Age: '',
+                GenderAssignedAtBirth: '',
+                PreferredGender: '',
+                ContactNumber: '',
+                EmailAddress: '',
+                EmergencyContact: {
+                    Name: '',
+                    Relationship: '',
+                    ContactInformation: ''
+                },
+                InsuranceDetails: {
+                    InsuranceProvider: '',
+                    PolicyNumber: '',
+                    GroupPolicyNumber: '',
+                    EffectiveDate: '',
+                    ExpirationDate: ''
+                },
+                MedicalHistory: '',
+                Allergies: []
+            });
             // Handle response and further actions like redirecting or showing success message
         } catch (error) {
             console.error('Submission failed', error);

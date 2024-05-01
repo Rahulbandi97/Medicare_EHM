@@ -12,17 +12,17 @@ const emrSchema = new Schema({
     unique: true
   },
   PatientID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'Patient',
     required: true
   },
   ProviderID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'HealthCareProvider',
     required: true
   },
   StaffID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: String,
     ref: 'Staff',
     required: true
   },
@@ -31,10 +31,10 @@ const emrSchema = new Schema({
     default: Date.now
   },
   VitalSigns: {
-    HeartRate: Number,
+    HeartRate: String,
     BloodPressure: String,
-    BodyTemperature: Number,
-    OxygenSaturation: Number
+    BodyTemperature: String,
+    OxygenSaturation: String
   },
   MedicalNotes: String,
   Diagnoses: [String],

@@ -17,10 +17,13 @@ const getAllAppointments = async (req, res, next) => {
 
 const addAppointment = async (req, res, next) => {
   const newAppointment = new Appointment(req.body);
+  console.log(req.body);
   let savedAppointment;
   try {
-    // const savedAppointment = await newAppointment.save();   
+    // const savedAppointment = await newAppointment.save();  
+    // const convertedAppointmentID = new mongoose.Types.ObjectId(AppointmentID); 
     savedAppointment = await newAppointment.save();
+
   } catch (err) {
     return next(err);
   }
@@ -54,11 +57,12 @@ const updateAppointment = async (req, res, next) => {
 const deleteAppointment = async (req, res, next) => {
   // const { id } = req.params;
   const id = req.params.id;
+  const _id = await Appointment.findOne({ "AppointmentID": id }).select('_id');
 
   let deletedAppointment
   try {
     // const deletedAppointment = await Appointment.findByIdAndDelete(id);
-    deletedAppointment = await Appointment.findByIdAndDelete(id);
+    deletedAppointment = await Appointment.findByIdAndDelete(_id);
     
   } catch (err) {
     return next(err);
