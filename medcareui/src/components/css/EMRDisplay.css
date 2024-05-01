@@ -1,0 +1,76 @@
+/* EMRDisplay.css */
+.container {
+    padding: 20px;
+    background-color: #f9f9f9; /* Light grey background for better readability */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    width: 80%; /* Optimal width for readability */
+    margin: auto; /* Center the container */
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.emr-data {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.emr-data ol {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0;
+}
+
+.emr-data li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for each item */
+}
+
+.emr-data img {
+    width: 100px; /* Fixed width for images */
+    height: 100px; /* Fixed height for images */
+    border-radius: 4px; /* Rounded corners for images */
+    margin-top: 10px;
+}
+
+.delete-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.delete-section input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%; /* Responsive width */
+}
+
+.delete-section button {
+    width: 25%; /* Responsive width */
+}
+
+.title {
+    text-align: center; /* Center the title text */
+    color: #333;
+    margin-bottom: 20px;
+}

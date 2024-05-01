@@ -1,57 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './css/patientdisplay.css';
 import axios from 'axios';
 
 function PatientDisplay() {
     const [patients, setPatients] = useState([]);
+    const [deleteId, setDeleteId] = useState(''); // State to hold the ID to delete
 
-    const fetchPatientData = async (e) => {
+    const fetchPatientData = async () => {
         try {
             const response = await axios.get('http://localhost:5000/patients');
-            const data = response.data;
-            setPatients(data); // Set the state with the fetched data
-            console.log(patients)
-            console.log('Data fetched and state set');
+            setPatients(response.data); // Set the state with the fetched data
         } catch (error) {
             console.error('Failed to fetch patient data:', error);
-            if (error.response) {
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
-            } else if (error.request) {
-                console.error(error.request);
-            } else {
-                console.error('Error', error.message);
-            }
         }
     };
 
-    // useEffect hook to log the patients state whenever it changes
-    // useEffect(() => {
-    //     console.log("Patients state updated:", patients);
-    // }, [patients]); // This effect depends on `patients` and runs whenever `patients` changes
+    const deletePatientData = async () => {
+        if (!deleteId) {
+            alert('Please enter a valid Patient ID to delete.');
+            return;
+        }
+        try {
+            const response = await axios.delete(`http://localhost:5000/patients/${deleteId}`);
+            alert('Patient deleted successfully!');
+            setDeleteId(''); // Clear the input field after successful deletion
+            fetchPatientData(); // Refresh the patient data
+        } catch (error) {
+            console.error('Failed to delete patient:', error);
+            alert('Failed to delete patient!');
+        }
+    };
+
+    const handleDeleteIdChange = (event) => {
+        setDeleteId(event.target.value);
+    };
 
     return (
         <div className="container">
-    <button onClick={fetchPatientData}>Load Patient Data</button>
-    <div className="patient-data">
-        {patients.length > 0 ? (
-            <ol> {/* This ordered list now correctly wraps all patients */}
-                {patients.map((patient) => (
-                    <li key={patient.PatientId || patient.id}> {/* Use PatientId or a fallback like id as a key */}
-                        <div><strong>Name:</strong> {patient.FirstName} {patient.LastName}</div>
-                        <div><strong>ID:</strong> {patient.PatientID}</div>
-                        <div><strong>Date of Birth:</strong> {patient.DOB}</div>
-                        <div><strong>Contact:</strong> {patient.ContactNumber}</div>
-                        <div><strong>Email:</strong> {patient.EmailAddress}</div>
-                    </li>
-                ))}
-            </ol>
-        ) : (
-            <p>No patient data available.</p>
-        )}
-    </div>
-</div>
+            <button onClick={fetchPatientData}>Load Patient Data</button>
+            <div className="patient-data">
+                {patients.length > 0 ? (
+                    <ol>
+                        {patients.map((patient) => (
+                            <li key={patient.PatientId || patient.id}>
+                                <div><strong>Name:</strong> {patient.FirstName} {patient.LastName}</div>
+                                <div><strong>ID:</strong> {patient.PatientID}</div>
+                                <div><strong>Date of Birth:</strong> {patient.DOB}</div>
+                                <div><strong>Contact:</strong> {patient.ContactNumber}</div>
+                                <div><strong>Email:</strong> {patient.EmailAddress}</div>
+                            </li>
+                        ))}
+                    </ol>
+                ) : (
+                    <p>No patient data available.</p>
+                )}
+            </div>
+            <div className="delete-section">
+                <input
+                    type="text"
+                    value={deleteId}
+                    onChange={handleDeleteIdChange}
+                    placeholder="Enter Patient ID to delete"
+                    style={{ marginRight: '10px' }}
+                />
+                <button onClick={deletePatientData}>Delete Patient</button>
+            </div>
+        </div>
     );
 }
 

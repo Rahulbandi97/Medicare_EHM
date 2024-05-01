@@ -12,7 +12,7 @@ const getAllEMRs = async (req, res, next) => {
   if(!emrs){
     return res.status(500).json({message: "Internal server error"});
   }
-  return res.status(200).json({ emrs });
+  return res.status(200).json( emrs );
 };
 
 const addEMR = async (req, res, next) => {
@@ -48,9 +48,10 @@ const updateEMR = async (req, res, next) => {
 };
 
 const deleteEMR = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await EMR.findOne({ "RecordID": id }).select('_id');
   try {
-    const deletedEMR = await EMR.findByIdAndDelete(id);
+    const deletedEMR = await EMR.findByIdAndDelete(_id);
     if (!deletedEMR) {
       return res.status(404).json({ message: "EMR not found." });
     }

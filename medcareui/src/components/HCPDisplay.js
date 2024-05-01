@@ -1,57 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './css/HCPDisplay.css';
 import axios from 'axios';
 
 function HCPDisplay() {
-    const [hcps, setHcp] = useState([]);
+    const [hcps, setHcps] = useState([]);
+    const [deleteId, setDeleteId] = useState(''); // State to hold the ID to delete
 
-    const fetchHcpData = async (e) => {
+    const fetchHcpData = async () => {
         try {
             const response = await axios.get('http://localhost:5000/healthcareProviders');
-            const data = response.data;
-            setHcp(data); // Set the state with the fetched data
-            console.log(hcps)
+            setHcps(response.data); // Set the state with the fetched data
             console.log('Data fetched and state set');
         } catch (error) {
-            console.error('Failed to fetch patient data:', error);
-            if (error.response) {
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
-            } else if (error.request) {
-                console.error(error.request);
-            } else {
-                console.error('Error', error.message);
-            }
+            console.error('Failed to fetch HCP data:', error);
         }
     };
 
-    // useEffect hook to log the hcps state whenever it changes
-    // useEffect(() => {
-    //     console.log("hcps state updated:", hcps);
-    // }, [hcps]); // This effect depends on `hcps` and runs whenever `hcps` changes
+    const deleteHcpData = async () => {
+        if (!deleteId) {
+            alert('Please enter a valid HCP ID to delete.');
+            return;
+        }
+        try {
+            const response = await axios.delete(`http://localhost:5000/healthcareProviders/${deleteId}`);
+            console.log('Deletion successful', response.data);
+            alert('HCP deleted successfully!');
+            setDeleteId(''); // Clear the input field after successful deletion
+            fetchHcpData(); // Refresh the HCP data
+        } catch (error) {
+            console.error('Failed to delete HCP:', error);
+            alert('Failed to delete HCP!');
+        }
+    };
+
+    const handleDeleteIdChange = (e) => {
+        setDeleteId(e.target.value);
+    };
 
     return (
         <div className="container">
-    <button onClick={fetchHcpData}>Load HCP Data</button>
-    <div className="hcp-data">
-        {hcps.length > 0 ? (
-            <ol> {/* This ordered list now correctly wraps all hcps */}
-                {hcps.map((healthcareProviders) => (
-                    <li key={healthcareProviders.ProviderId || healthcareProviders.id}> {/* Use PatientId or a fallback like id as a key */}
-                        <div><strong>Name:</strong> {healthcareProviders.FirstName} {healthcareProviders.LastName}</div>
-                        <div><strong>ID:</strong> {healthcareProviders.ProviderID}</div>
-                        <div><strong>Designation:</strong> {healthcareProviders.Designation}</div>
-                        <div><strong>Contact:</strong> {healthcareProviders.ContactNumber}</div>
-                        <div><strong>Email:</strong> {healthcareProviders.EmailAddress}</div>
-                    </li>
-                ))}
-            </ol>
-        ) : (
-            <p>No HCP data available.</p>
-        )}
-    </div>
-</div>
+            <button onClick={fetchHcpData}>Load HCP Data</button>
+            <div className="hcp-data">
+                {hcps.length > 0 ? (
+                <ol>
+                    {hcps.map((hcp) => (
+                        <li key={hcp.ProviderId || hcp.id}>
+                            <div><strong>Name:</strong> {hcp.FirstName} {hcp.LastName}</div>
+                            <div><strong>ID:</strong> {hcp.ProviderID}</div>
+                            <div><strong>Designation:</strong> {hcp.Designation}</div>
+                            <div><strong>Contact:</strong> {hcp.ContactNumber}</div>
+                            <div><strong>Email:</strong> {hcp.EmailAddress}</div>
+                        </li>
+                    ))}
+                </ol>
+                ) : (
+                    <p>No HCP data available.</p>
+                )}
+            </div>
+            <div className="delete-section">
+                <input
+                    type="text"
+                    value={deleteId}
+                    onChange={handleDeleteIdChange}
+                    placeholder="Enter HCP ID to delete"
+                    style={{ marginRight: '10px' }}
+                />
+                <button onClick={deleteHcpData}>Delete HCP</button>
+            </div>
+        </div>
     );
 }
 
