@@ -20,9 +20,10 @@ const addStaffMember = async (req, res, next) => {
 };
 
 const updateStaffMember = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await Staff.findOne({ "StaffID": id }).select('_id');
   try {
-    const updatedStaffMember = await Staff.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedStaffMember = await Staff.findByIdAndUpdate(_id, req.body, { new: true });
     if (!updatedStaffMember) {
       return res.status(404).json({ message: "Staff member not found." });
     }
@@ -52,9 +53,10 @@ const deleteStaffMember = async (req, res, next) => {
 };
 
 const getStaffMemberById = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await Staff.findOne({ "StaffID": id }).select('_id');
   try {
-    const staffMember = await Staff.findById(id);
+    const staffMember = await Staff.findById(_id);
     if (!staffMember) {
       return res.status(404).json({ message: "Staff member not found." });
     }

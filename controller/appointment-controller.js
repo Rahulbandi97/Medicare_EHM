@@ -37,12 +37,13 @@ const addAppointment = async (req, res, next) => {
 const updateAppointment = async (req, res, next) => {
   // const { id } = req.params;
   const id = req.params.id;
+  const _id = await Appointment.findOne({ "AppointmentID": id }).select('_id');
 
   let updatedAppointment
 
   try {
     // const updatedAppointment = await Appointment.findByIdAndUpdate(id, req.body, { new: true });
-    updatedAppointment = await Appointment.findByIdAndUpdate(id, req.body, { new: true });
+    updatedAppointment = await Appointment.findByIdAndUpdate(_id, req.body, { new: true });
     
   } catch (err) {
     return next(err);
@@ -78,10 +79,11 @@ const deleteAppointment = async (req, res, next) => {
 const getAppointmentById = async (req, res, next) => {
   // const { id } = req.params;
   const id = req.params.id;
+  const _id = await Appointment.findOne({ "AppointmentID": id }).select('_id');
   let appointment;
   try {
     //const appointment = await Appointment.findById(id).populate('PatientID').populate('ProviderID').populate('StaffID');
-    appointment = await Appointment.findById(id).populate('PatientID').populate('ProviderID').populate('StaffID');
+    appointment = await Appointment.findById(_id).populate('PatientID').populate('ProviderID').populate('StaffID');
   } catch (err) {
     return next(err);
   }

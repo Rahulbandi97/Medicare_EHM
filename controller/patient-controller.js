@@ -29,9 +29,10 @@ const addPatient = async (req, res, next) => {
 };
 
 const updatePatient = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await Patient.findOne({ "PatientID": id }).select('_id');
   try {
-    const updatedPatient = await Patient.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedPatient = await Patient.findByIdAndUpdate(_id, req.body, { new: true });
     if (!updatedPatient) {
       return res.status(404).json({ message: "Patient not found." });
     }
@@ -96,9 +97,10 @@ const deletePatient = async (req, res, next) => {
 };
 
 const getPatientById = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params;
+  const _id = await Patient.findOne({ "PatientID": id }).select('_id');
   try {
-    const patient = await Patient.findById(id);
+    const patient = await Patient.findById(_id);
     if (!patient) {
       return res.status(404).json({ message: "Patient not found." });
     }

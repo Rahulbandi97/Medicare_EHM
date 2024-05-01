@@ -22,9 +22,10 @@ const addHealthcareProvider = async (req, res, next) => {
 };
 
 const updateHealthcareProvider = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await HealthcareProvider.findOne({ "ProviderID": id }).select('_id');
   try {
-    const updatedHealthcareProvider = await HealthcareProvider.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedHealthcareProvider = await HealthcareProvider.findByIdAndUpdate(_id, req.body, { new: true });
     if (!updatedHealthcareProvider) {
       return res.status(404).json({ message: "Healthcare Provider not found." });
     }
@@ -64,9 +65,10 @@ const deleteHealthcareProvider = async (req, res, next) => {
 };
 
 const getHealthcareProviderById = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await HealthcareProvider.findOne({ "ProviderID": id }).select('_id');
   try {
-    const healthcareProvider = await HealthcareProvider.findById(id);
+    const healthcareProvider = await HealthcareProvider.findById(_id);
     if (!healthcareProvider) {
       return res.status(404).json({ message: "Healthcare Provider not found." });
     }

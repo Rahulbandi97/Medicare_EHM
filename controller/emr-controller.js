@@ -33,11 +33,11 @@ const addEMR = async (req, res, next) => {
 const updateEMR = async (req, res, next) => {
   // const { id } = req.params;
   const id = req.params.id;
-
+  const _id = await EMR.findOne({ "RecordID": id }).select('_id');
   let updatedEMR;
   try {
     //const updatedEMR = await EMR.findByIdAndUpdate(id, req.body, { new: true });
-    updatedEMR = await EMR.findByIdAndUpdate(id, req.body, { new: true });
+    updatedEMR = await EMR.findByIdAndUpdate(_id, req.body, { new: true });
   } catch (err) {
     return next(err);
   }
@@ -62,9 +62,10 @@ const deleteEMR = async (req, res, next) => {
 };
 
 const getEMRById = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const _id = await EMR.findOne({ "RecordID": id }).select('_id');
   try {
-    const emr = await EMR.findById(id).populate('PatientID').populate('ProviderID').populate('StaffID');
+    const emr = await EMR.findById(_id).populate('PatientID').populate('ProviderID').populate('StaffID');
     if (!emr) {
       return res.status(404).json({ message: "EMR not found." });
     }
